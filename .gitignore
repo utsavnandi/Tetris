@@ -78,3 +78,10 @@ android.*
 *.js
 !src/minshell.html
 !src/shell.html
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr

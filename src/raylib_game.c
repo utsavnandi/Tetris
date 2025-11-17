@@ -23,16 +23,16 @@
 // Shared Variables Definition (global)
 // NOTE: Those variables are shared between modules through screens.h
 //----------------------------------------------------------------------------------
-GameScreen currentScreen = LOGO;
+GameScreen currentScreen = GAMEPLAY; // LOGO
 Font font = { 0 };
-Music music = { 0 };
+// Music music = { 0 };
 Sound fxCoin = { 0 };
 
 //----------------------------------------------------------------------------------
 // Global Variables Definition (local to this module)
 //----------------------------------------------------------------------------------
 static const int screenWidth = 800;
-static const int screenHeight = 450;
+static const int screenHeight = 800;
 
 // Required variables to manage screen transitions (fade-in, fade-out)
 static float transAlpha = 0.0f;
@@ -68,12 +68,13 @@ int main(void)
     //music = LoadMusicStream("resources/ambient.ogg"); // TODO: Load music
     fxCoin = LoadSound("resources/coin.wav");
 
-    SetMusicVolume(music, 1.0f);
-    PlayMusicStream(music);
+    // SetMusicVolume(music, 1.0f);
+    // PlayMusicStream(music);
 
     // Setup and init first screen
-    currentScreen = LOGO;
-    InitLogoScreen();
+    currentScreen = GAMEPLAY; // LOGO
+    // InitLogoScreen();
+    InitGameplayScreen(); // TODO: remove this, only for debug purposes
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
@@ -103,7 +104,7 @@ int main(void)
 
     // Unload global data loaded
     UnloadFont(font);
-    UnloadMusicStream(music);
+    // UnloadMusicStream(music);
     UnloadSound(fxCoin);
 
     CloseAudioDevice();     // Close audio context
