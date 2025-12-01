@@ -36,3 +36,9 @@ This game sources are licensed under an unmodified zlib/libpng license, which is
 
 This game was build using the [raylib game template](https://github.com/raysan5/raylib-game-template). Check the instructions [there](https://github.com/raysan5/raylib-game-template?tab=readme-ov-file#getting-started-with-this-template) to setup your development environment.
 
+```bash
+cd build
+rm -rf *
+cmake -G Ninja ..
+ninja
+```

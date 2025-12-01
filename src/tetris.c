@@ -134,6 +134,8 @@ Tetromino createTetromino(const TetrominoDef *def, int startX, int startY) {
     return piece;
 }
 
+// TODO: should be passed by reference to avoid copying
+// void rotatePiece(Tetromino *piece) {
 Tetromino rotatePiece(Tetromino piece) {
     Tetromino rotated = piece;
     for (int y = 0; y < 4; y++) {
@@ -145,6 +147,7 @@ Tetromino rotatePiece(Tetromino piece) {
     return rotated;
 }
 
+// Note: In C we can't pass by refrence directly so we emulate it by passing raw pointers
 int simulateMove(GameState *state, Tetromino piece, MOVE currentMove) {
     // simulate a move and check for collision
     switch (currentMove)
@@ -172,6 +175,7 @@ int simulateMove(GameState *state, Tetromino piece, MOVE currentMove) {
 
 }
 
+// Notes Similar to above func in Notes
 int checkPieceCollisionWithGrid(GameState *state, Tetromino piece) {
     // basic idea is to check for:
     //  1. out of bounds -> return -1 : invalid move
@@ -194,6 +198,7 @@ int checkPieceCollisionWithGrid(GameState *state, Tetromino piece) {
     return 0;
 }
 
+// TODO: This correct for state but tetromino should be passed by reference as well
 void lockPieceInGrid(GameState *state, Tetromino piece) {
     for (int py = 0; py < 4; py++) {
         for (int px = 0; px < 4; px++) {
@@ -210,7 +215,9 @@ void lockPieceInGrid(GameState *state, Tetromino piece) {
 
 int clearLines(GameState *state) {
     int linesCleared = 0;
-    for (int y = 0; y < GRID_HEIGHT; y++) {
+    
+    // Start from bottom, check if row is full, shift rows down as we go
+    for (int y = GRID_HEIGHT - 1; y >= 0; y--) {
         bool lineFull = true;
         for (int x = 0; x < GRID_WIDTH; x++) {
             if (state->grid[y][x] == 0) {
@@ -218,20 +225,23 @@ int clearLines(GameState *state) {
                 break;
             }
         }
+        
         if (lineFull) {
             linesCleared++;
         } else if (linesCleared > 0) {
-            // Shift this row down by linesCleared
-            for (int tx = 0; tx < GRID_WIDTH; tx++) {
-                state->grid[y - linesCleared][tx] = state->grid[y][tx];
+            // Shift this non-full row down by linesCleared positions
+            for (int x = 0; x < GRID_WIDTH; x++) {
+                state->grid[y + linesCleared][x] = state->grid[y][x];
             }
         }
     }
-    // Clear the top linesCleared rows
-    for (int y = GRID_HEIGHT - linesCleared; y < GRID_HEIGHT; y++) {
-        for (int tx = 0; tx < GRID_WIDTH; tx++) {
-            state->grid[y][tx] = 0;
+    
+    // Clear the top linesCleared rows - edge case when the grid is almost full
+    for (int y = 0; y < linesCleared; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            state->grid[y][x] = 0;
         }
     }
+    
     return linesCleared;
 }
