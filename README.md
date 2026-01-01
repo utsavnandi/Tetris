@@ -32,6 +32,12 @@ This game sources are licensed under an unmodified zlib/libpng license, which is
 
 *Copyright (c) 2025 Utsav Nandi (utsavnandi)*
 
+### Documentation
+
+- **Public API reference (screens + tetris engine)**: `docs/API.md`
+- **Screen/component behavior & transitions**: `docs/SCREENS.md`
+- **Tetris engine notes & integration patterns**: `docs/TETRIS_ENGINE.md`
+
 ## How to build this game
 
 This game was build using the [raylib game template](https://github.com/raysan5/raylib-game-template). Check the instructions [there](https://github.com/raysan5/raylib-game-template?tab=readme-ov-file#getting-started-with-this-template) to setup your development environment.

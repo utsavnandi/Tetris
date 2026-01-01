@@ -34,6 +34,8 @@ typedef enum GameScreen { UNKNOWN = -1, LOGO = 0, TITLE, OPTIONS, GAMEPLAY, ENDI
 //----------------------------------------------------------------------------------
 // Global Variables Declaration (shared by several modules)
 //----------------------------------------------------------------------------------
+// NOTE: These globals are declared here and defined in src/raylib_game.c.
+// They are intended to be shared across screens for simple projects.
 extern GameScreen currentScreen;
 extern Font font;
 extern Music music;
@@ -46,6 +48,8 @@ extern "C" {            // Prevents name mangling of functions
 //----------------------------------------------------------------------------------
 // Logo Screen Functions Declaration
 //----------------------------------------------------------------------------------
+// Each screen is a component with a standard lifecycle:
+//   Init -> (Update/Draw)* -> Unload, with Finish used to request transitions.
 void InitLogoScreen(void);
 void UpdateLogoScreen(void);
 void DrawLogoScreen(void);
